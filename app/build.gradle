@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.application'
-
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -26,6 +26,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
+    compileSdkVersion 31
+    buildToolsVersion '30.0.2'
 }
 
 dependencies {
@@ -40,11 +45,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-analytics'
 
-    implementation 'info.hoang8f:fbutton:1.0.5'
-    implementation 'com.google.firebase:firebase-core:19.0.2'
-    implementation 'com.google.firebase:firebase-database:20.0.2'
+    //implementation 'info.hoang8f:fbutton:1.0.5'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation 'com.google.firebase:firebase-database:20.0.1'
+    implementation 'com.github.jd-alexander:android-flat-button:v1.1'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-
 }
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+
