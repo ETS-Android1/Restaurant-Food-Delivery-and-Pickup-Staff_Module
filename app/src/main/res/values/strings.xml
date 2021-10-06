@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CapstoneProjectAdmin</string>
+    <string name="inti_restaurant_admin">INTI Restaurant Admin</string>
+    <string name="login">Login</string>
+</resources>
