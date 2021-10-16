@@ -18,11 +18,11 @@ public class Admin {
 
     public void setName(String name) {this.adminName = name;}
 
-    public String getPassword() {
+    public String getAdminPassword() {
         return adminPassword;
     }
 
-    public void setPassword(String password) {
+    public void setAdminPassword(String password) {
         this.adminPassword = password;
     }
 
@@ -32,5 +32,13 @@ public class Admin {
 
     public void setUsername(String adminUsername) {
         this.adminUsername = adminUsername;
+    }
+
+    public String getAdminTelNo() {
+        return adminTelNo;
+    }
+
+    public void setAdminTelNo(String adminTelNo) {
+        this.adminTelNo = adminTelNo;
     }
 }

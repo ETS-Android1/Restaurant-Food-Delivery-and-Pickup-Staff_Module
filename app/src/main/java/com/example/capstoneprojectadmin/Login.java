@@ -1,5 +1,6 @@
 package com.example.capstoneprojectadmin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
     FirebaseDatabase  database;
     DatabaseReference adminTable;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class Login extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app/");
         adminTable = database.getReference("Admin");
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,16 +58,19 @@ public class Login extends AppCompatActivity {
 
         final String localUsername = username;
         final String localPassword = password;
-        adminTable.addValueEventListener(new ValueEventListener() {
+        adminTable.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.child(localUsername).exists()){
+                if(dataSnapshot.child(username).exists()){
                     mDialog.dismiss();
-                    Admin admin = dataSnapshot.child(localUsername).getValue(Admin.class);
-                    admin.setUsername(localUsername);
 
-                    if(admin.getPassword().equals(localPassword)){
+                    Admin admin = dataSnapshot.child(username).getValue(Admin.class);
+                    admin.setUsername(localUsername);
+                    admin.setAdminPassword(dataSnapshot.child(username).child("adminPassword").getValue().toString());
+
+
+                    if(admin.getAdminPassword().equals(password)){
                         Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
                     }
                     else
