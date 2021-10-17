@@ -82,10 +82,10 @@ public class Login extends AppCompatActivity {
                     else
                         Toast.makeText(Login.this, "Wrong password !", Toast.LENGTH_SHORT).show();
                 }
-                else
+                else {
                     mDialog.dismiss();
                     Toast.makeText(Login.this, "Please login with Staff account!", Toast.LENGTH_SHORT).show();
-
+                }
             }
 
             @Override
