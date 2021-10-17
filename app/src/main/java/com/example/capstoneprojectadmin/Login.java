@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.capstoneprojectadmin.Common.Common;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -72,6 +74,10 @@ public class Login extends AppCompatActivity {
 
                     if(admin.getAdminPassword().equals(password)){
                         Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        Intent home = new Intent(Login.this,Home.class);
+                        Common.currentAdmin = admin;
+                        startActivity(home);
+                        finish();
                     }
                     else
                         Toast.makeText(Login.this, "Wrong password !", Toast.LENGTH_SHORT).show();
