@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ProgressBar;
@@ -47,6 +48,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
+import Interface.ItemClickListener;
 import info.hoang8f.widget.FButton;
 
 public class Home extends AppCompatActivity {
@@ -246,6 +248,13 @@ public class Home extends AppCompatActivity {
             protected void populateViewHolder(MenuViewHolder menuViewHolder, FoodCategory foodCategory, int i) {
                 menuViewHolder.txtMenuName.setText(foodCategory.getFoodCatName());
                 Picasso.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
+
+                menuViewHolder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+
+                    }
+                });
             }
         };
 
@@ -266,6 +275,127 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    //Update / Delete
+
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        if(item.getTitle().equals(Common.UPDATE)){
+            showUpdateDialog(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));
+        }
+        else if(item.getTitle().equals(Common.DELETE)){
+            deleteCategory(adapter.getRef(item.getOrder()).getKey());
+        }
+
+
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void deleteCategory(String key) {
+        foodCategory.child(key).removeValue();
+        Toast.makeText(this,"Item deleted!",Toast.LENGTH_SHORT).show();
+    }
+
+    private void showUpdateDialog(String key, FoodCategory item) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
+        alertDialog.setTitle("Update Category");
+        alertDialog.setMessage("Enter the category Name and URL image");
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View add_menu_layout = inflater.inflate(R.layout.add_new_menu_layout,null);
+
+        edtName = add_menu_layout.findViewById(R.id.edtName);
+        selectButton = add_menu_layout.findViewById(R.id.selectButton);
+        uploadButton = add_menu_layout.findViewById(R.id.uploadButton);
+
+        //Set default name
+        edtName.setText(item.getFoodCatName());
+
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImage(); //Let user select image from gallery and save uri of this image
+            }
+        });
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                changeImage(item);
+            }
+        });
+
+        alertDialog.setView(add_menu_layout);
+        alertDialog.setIcon(R.drawable.ic_baseline_restaurant_24);
+
+        //Set button
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+
+                //Update information
+                item.setFoodCatName(edtName.getText().toString());
+                foodCategory.child(key).setValue(item);
+            }
+        });
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+
+        alertDialog.show();
+    }
+    private void changeImage(FoodCategory item) {
+        if(saveUri!=null){
+            ProgressDialog mDialog = new ProgressDialog(this);
+            mDialog.setMessage("Uploading...");
+            mDialog.show();
+
+            String imageName = UUID.randomUUID().toString();
+            StorageReference imageFolder = storageReference.child("images/"+imageName);
+            imageFolder.putFile(saveUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            mDialog.dismiss();;
+                            Toast.makeText(Home.this, "Uploaded !", Toast.LENGTH_SHORT).show();
+                            imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //set value for newCategory if image upload and we can get download link
+                                    item.setFoodImageURL(uri.toString());
+
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            mDialog.dismiss();
+                            Toast.makeText(Home.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                            double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                            mDialog.setMessage("Uploaded " + progress+"%");
+                        }
+                    });
+        }
     }
 }
 
