@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.example.capstoneprojectadmin.databinding.ActivityHomeBinding;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseError;
@@ -53,8 +55,7 @@ import Interface.ItemClickListener;
 import info.hoang8f.widget.FButton;
 
 public class FoodList extends AppCompatActivity {
-
-    private @NonNull ActivityFoodListBinding binding;
+    
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -79,6 +80,7 @@ public class FoodList extends AppCompatActivity {
 
     Uri saveUri;
 
+
     //Search Functionality
     FirebaseRecyclerAdapter<Food, FoodViewHolder> searchAdapter;
     java.util.List<String> suggestList = new ArrayList<>();
@@ -101,12 +103,11 @@ public class FoodList extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        rootLayout = (RelativeLayout)findViewById(R.id.rootLayout);
+        rootLayout = (RelativeLayout) findViewById(R.id.rootLayout);
 
-        binding = ActivityFoodListBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showAddFoodDialog();
@@ -114,17 +115,19 @@ public class FoodList extends AppCompatActivity {
         });
 
 
-
         if(getIntent() != null)
             foodCatID = getIntent().getStringExtra("Food Category ID");
-        if(!foodCatID.isEmpty() && foodCatID != null)
+
+        if(!foodCatID.isEmpty())
             loadFoodList(foodCatID);
+
         //Search
         materialSearchBar = (MaterialSearchBar)findViewById(R.id.search_bar);
         materialSearchBar.setHint("Search Food");
         loadSuggest(); //Write function to load suggest from firebase
         materialSearchBar.setLastSuggestions(suggestList);
         materialSearchBar.setCardViewElevation(10);
+
         materialSearchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -173,7 +176,7 @@ public class FoodList extends AppCompatActivity {
     private void showAddFoodDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(FoodList.this);
         alertDialog.setTitle("Add new food");
-        alertDialog.setMessage("Enter the category Name and URL image");
+        alertDialog.setMessage("Enter the food Name, description and upload the URL image");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View add_menu_layout = inflater.inflate(R.layout.add_new_food_layout,null);
@@ -305,6 +308,7 @@ public class FoodList extends AppCompatActivity {
                 });
             }
         };
+
         recyclerView.setAdapter(searchAdapter);
     }
 
@@ -358,6 +362,132 @@ public class FoodList extends AppCompatActivity {
                 && data != null && data.getData() != null){
             saveUri = data.getData();
             selectButton.setText("Image Selected!");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getTitle().equals(Common.UPDATE)){
+            showUpdateFoodDialog(adapter.getRef(item.getOrder()).getKey(),adapter.getItem(item.getOrder()));
+        }
+        else if(item.getTitle().equals(Common.DELETE)){
+            deleteFood(adapter.getRef(item.getOrder()).getKey());
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void deleteFood(String key) {
+        foodList.child(key).removeValue();
+    }
+
+
+    private void showUpdateFoodDialog(String key, Food item) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(FoodList.this);
+        alertDialog.setTitle("Edit food");
+        alertDialog.setMessage("Enter the food Name, description and upload the URL image");
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View add_menu_layout = inflater.inflate(R.layout.add_new_food_layout,null);
+
+        edtName = add_menu_layout.findViewById(R.id.edtName);
+        edtDesc = add_menu_layout.findViewById(R.id.edtDesc);
+        edtPrice = add_menu_layout.findViewById(R.id.edtPrice);
+
+        //Set default value for view
+        edtName.setText(item.getFoodName());
+        edtDesc.setText(item.getFoodDesc());
+        edtPrice.setText(item.getFoodPrice());
+
+        selectButton = add_menu_layout.findViewById(R.id.selectButton);
+        uploadButton = add_menu_layout.findViewById(R.id.uploadButton);
+
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImage(); //Let user select image from gallery and save uri of this image
+            }
+        });
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                changeImage(item);
+            }
+        });
+
+        alertDialog.setView(add_menu_layout);
+        alertDialog.setIcon(R.drawable.ic_baseline_restaurant_24);
+
+        //Set button
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+
+                item.setFoodName(edtName.getText().toString());
+                item.setFoodDesc(edtDesc.getText().toString());
+                item.setFoodPrice(edtPrice.getText().toString());
+
+                foodList.child(key).setValue(item);
+
+                Snackbar.make(rootLayout, "Food " + item.getFoodName() + " was edited", Snackbar.LENGTH_SHORT).show();
+
+            }
+
+        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+
+        alertDialog.show();
+    }
+
+    private void changeImage(Food item) {
+        if(saveUri!=null){
+            ProgressDialog mDialog = new ProgressDialog(this);
+            mDialog.setMessage("Uploading...");
+            mDialog.show();
+
+            String imageName = UUID.randomUUID().toString();
+            StorageReference imageFolder = storageReference.child("images/"+imageName);
+            imageFolder.putFile(saveUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            mDialog.dismiss();;
+                            Toast.makeText(FoodList.this, "Uploaded !", Toast.LENGTH_SHORT).show();
+                            imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //set value for newCategory if image upload and we can get download link
+                                    item.setFoodImageURL(uri.toString());
+
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            mDialog.dismiss();
+                            Toast.makeText(FoodList.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                            double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                            mDialog.setMessage("Uploaded " + progress+"%");
+                        }
+                    });
         }
     }
 }
