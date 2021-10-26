@@ -119,7 +119,7 @@ public class Home extends AppCompatActivity {
         txtFullName.setText(Common.currentAdmin.getName());
 
         //Load menu
-        recyclerMenu = findViewById(R.id.recycler_food);
+        recyclerMenu = findViewById(R.id.recycler_menu);
         recyclerMenu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerMenu.setLayoutManager(layoutManager);
