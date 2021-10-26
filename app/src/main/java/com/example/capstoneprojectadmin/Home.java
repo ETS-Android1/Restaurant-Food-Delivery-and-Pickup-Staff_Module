@@ -78,7 +78,6 @@ public class Home extends AppCompatActivity {
     FoodCategory newCategory;
 
     Uri saveUri;
-    private final int PICK_IMAGE_REQUEST = 71;
 
     DrawerLayout drawer;
 
@@ -120,7 +119,7 @@ public class Home extends AppCompatActivity {
         txtFullName.setText(Common.currentAdmin.getName());
 
         //Load menu
-        recyclerMenu = findViewById(R.id.recycler_menu);
+        recyclerMenu = findViewById(R.id.recycler_food);
         recyclerMenu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerMenu.setLayoutManager(layoutManager);
@@ -228,7 +227,7 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+        if(requestCode == Common.PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null){
             saveUri = data.getData();
             selectButton.setText("Image Selected!");
@@ -239,7 +238,7 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"),PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent,"Select Picture"),Common.PICK_IMAGE_REQUEST);
     }
 
     private void loadMenu() {
@@ -248,11 +247,14 @@ public class Home extends AppCompatActivity {
             protected void populateViewHolder(MenuViewHolder menuViewHolder, FoodCategory foodCategory, int i) {
                 menuViewHolder.txtMenuName.setText(foodCategory.getFoodCatName());
                 Picasso.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
-
+                FoodCategory clickItem = foodCategory;
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-
+                        //send category id and start new activity
+                        Intent foodList = new Intent (Home.this,FoodList.class);
+                        foodList.putExtra("Food Category ID",adapter.getRef(position).getKey());
+                        startActivity(foodList);
                     }
                 });
             }

@@ -14,18 +14,23 @@
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.403125" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/drawable/side_nav_bar.xml" value="0.403125" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/font/lobster.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/activity_food_list.xml" value="0.22" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/activity_home.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/activity_login.xml" value="0.2265625" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/add_new_food_layout.xml" value="0.2006340579710145" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/add_new_menu_layout.xml" value="0.38697916666666665" />
-        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/app_bar_home.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/app_bar_food.xml" value="0.24635416666666668" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/app_bar_home.xml" value="0.25" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/content_home.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/food_item.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/fragment_gallery.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/fragment_home.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/fragment_slideshow.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/menu_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/layout/nav_header_home.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/menu/activity_main_drawer.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectAdmin/app/src/main/res/menu/home.xml" value="0.38697916666666665" />
       </map>
     </option>
   </component>
