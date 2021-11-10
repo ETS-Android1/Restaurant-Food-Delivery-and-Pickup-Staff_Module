@@ -112,7 +112,34 @@ public class Home extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if(id == R.id.nav_menu){
+
+                }
+                else if(id == R.id.nav_orders){
+                    Intent orderIntent = new Intent(Home.this,OrderStatus.class);
+                    startActivity(orderIntent);
+                }
+                else if(id == R.id.nav_log_out){
+                    //Logout
+                    Intent logIn = new Intent(Home.this,Login.class);
+                    logIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logIn);
+//                } else if(id == R.id.nav_ratings){
+//                    Intent ratingList = new Intent(Home.this, RatingList.class);
+//                    startActivity(ratingList);
+//                } else if(id == R.id.nav_profile){
+//                    Intent profile = new Intent(Home.this, Profile.class);
+//                    startActivity(profile);
+                }
+                return false;
+            }
+        });
+
 
         //Set Name for user
         View headerView = navigationView.getHeaderView(0);

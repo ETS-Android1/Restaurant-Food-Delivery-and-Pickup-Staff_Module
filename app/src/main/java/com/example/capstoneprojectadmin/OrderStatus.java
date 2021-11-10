@@ -107,6 +107,7 @@ public class OrderStatus extends AppCompatActivity {
                     });
                 }
             };
+            recyclerView.setAdapter(adapter);
         } else {
             readQuery = orders.orderByChild("adminFilter").equalTo(filterSelected);
             adapter = new FirebaseRecyclerAdapter<Order, OrderViewHolder>(
@@ -152,11 +153,8 @@ public class OrderStatus extends AppCompatActivity {
 
                 }
             };
+            recyclerView.setAdapter(adapter);
         }
-
-
-
-        recyclerView.setAdapter(adapter);
     }
     private String convertCodeToStatus(String status) {
         if(status.equals("0"))
