@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.capstoneprojectadmin.Common.Common;
 import com.example.capstoneprojectadmin.Model.FoodCategory;
 import com.example.capstoneprojectadmin.ViewHolder.MenuViewHolder;
@@ -246,7 +247,7 @@ public class Home extends AppCompatActivity {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, FoodCategory foodCategory, int i) {
                 menuViewHolder.txtMenuName.setText(foodCategory.getFoodCatName());
-                Picasso.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
+                Glide.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
                 FoodCategory clickItem = foodCategory;
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override

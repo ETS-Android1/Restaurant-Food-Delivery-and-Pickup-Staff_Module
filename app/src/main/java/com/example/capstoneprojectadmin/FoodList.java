@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.capstoneprojectadmin.Common.Common;
 import com.example.capstoneprojectadmin.Model.Food;
 import com.example.capstoneprojectadmin.Model.FoodCategory;
@@ -92,7 +93,7 @@ public class FoodList extends AppCompatActivity {
         setContentView(R.layout.activity_food_list);
 
         //Firebase
-        database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app");
+        database = FirebaseDatabase.getInstance();
         foodList = database.getReference("Food");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -295,7 +296,7 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void populateViewHolder(FoodViewHolder foodViewHolder, Food food, int position) {
                 foodViewHolder.food_name.setText(food.getFoodName());
-                Picasso.with(getBaseContext()).load(food.getFoodImageURL()).into(foodViewHolder.food_image);
+                Glide.with(getBaseContext()).load(food.getFoodImageURL()).into(foodViewHolder.food_image);
                 foodViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
@@ -337,7 +338,7 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void populateViewHolder(FoodViewHolder foodViewHolder, Food food, int i) {
                 foodViewHolder.food_name.setText(food.getFoodName());
-                Picasso.with(getBaseContext())
+                Glide.with(getBaseContext())
                         .load(food.getFoodImageURL())
                         .into(foodViewHolder.food_image);
                 Food selectedFood = food;

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CapstoneProjectAdmin">
         <activity
+            android:name=".OrderStatus"
+            android:exported="true" />
+        <activity
             android:name=".FoodList"
             android:exported="true" />
         <activity
