@@ -130,12 +130,9 @@ public class Home extends AppCompatActivity {
                     Intent logIn = new Intent(Home.this,Login.class);
                     logIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(logIn);
-//                } else if(id == R.id.nav_ratings){
-//                    Intent ratingList = new Intent(Home.this, RatingList.class);
-//                    startActivity(ratingList);
-//                } else if(id == R.id.nav_profile){
-//                    Intent profile = new Intent(Home.this, Profile.class);
-//                    startActivity(profile);
+                }
+                else if(id == R.id.admin_mng){
+
                 }
                 return false;
             }
@@ -259,7 +256,6 @@ public class Home extends AppCompatActivity {
         if(requestCode == Common.PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null){
             saveUri = data.getData();
-            selectButton.setText("Image Selected!");
             imagePreview.setImageURI(saveUri);
         }
     }
@@ -475,7 +471,7 @@ public class Home extends AppCompatActivity {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
 
-                            double progress = (100.0 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
+                            long progress = (100 * snapshot.getBytesTransferred()/snapshot.getTotalByteCount());
                             mDialog.setMessage("Uploaded " + progress+"%");
                         }
                     });

@@ -32,15 +32,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Image chosen: "
+            android:textStyle="bold"
             android:textSize="17sp"/>
 
         <ImageView
             android:id="@+id/image_preview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="215dp"
+            android:padding="5dp"
+            android:background="@drawable/border"
             android:layout_centerInParent="true"
             android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             android:src="@drawable/noimageselected"></ImageView>
 
         <LinearLayout
@@ -51,12 +54,12 @@
 
             <info.hoang8f.widget.FButton
                 android:id="@+id/selectButton"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="SELECT"
+                android:text="UPLOAD"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 app:cornerRadius="0dp"

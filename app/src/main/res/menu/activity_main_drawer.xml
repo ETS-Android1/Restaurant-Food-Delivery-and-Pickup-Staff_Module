@@ -15,10 +15,10 @@
             android:iconTint="@color/white"
             android:title="Orders" />
         <item
-            android:id="@+id/user_mng"
+            android:id="@+id/admin_mng"
             android:icon="@drawable/ic_baseline_person_24"
             android:iconTint="@color/white"
-            android:title="User Management" />
+            android:title="Admin Management" />
         <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_baseline_exit_to_app_24"
