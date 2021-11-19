@@ -53,6 +53,36 @@
         android:weightSum="2"> <!-- To make the layout to render correctly -->
 
 
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="0dp"
+            android:id="@+id/updateOrderButton"
+            android:layout_width="0dp"
+            android:layout_marginTop="-6.5dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#15BCFF"
+            android:drawableLeft="@drawable/ic_baseline_edit_24"
+            android:text="Update Order"
+            android:textAllCaps="false"
+            app:strokeColor="#2B77ED"
+            app:strokeWidth="0.5dp"
+            android:textSize="16sp" />
+
+        <com.google.android.material.button.MaterialButton
+            app:cornerRadius="0dp"
+            android:id="@+id/cancelOrderButton"
+            android:layout_width="0dp"
+            android:layout_marginTop="-6.5dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#15BCFF"
+            android:drawableLeft="@drawable/ic_baseline_cancel_24"
+            android:text="Cancel Order"
+            app:strokeColor="#2B77ED"
+            app:strokeWidth="0.5dp"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+
 
     </LinearLayout>
 

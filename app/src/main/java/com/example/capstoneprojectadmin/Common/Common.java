@@ -4,12 +4,14 @@ import android.text.format.DateFormat;
 
 import com.example.capstoneprojectadmin.Model.Admin;
 import com.example.capstoneprojectadmin.Model.Order;
+import com.example.capstoneprojectadmin.Model.Restaurant;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
 public class Common {
     public static Admin currentAdmin;
+    public static Restaurant currentRestaurant;
 
     public static final String UPDATE = "Update";
     public static final String DELETE = "Delete";

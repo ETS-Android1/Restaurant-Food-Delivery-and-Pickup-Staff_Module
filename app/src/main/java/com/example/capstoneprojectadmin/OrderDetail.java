@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class OrderDetail extends AppCompatActivity{
 
@@ -39,12 +41,19 @@ public class OrderDetail extends AppCompatActivity{
     TextView orderSchedule;
     String orderIdValue = "";
     String orderedFoods = "";
+    String nextStatusCode = "";
     RecyclerView foodList;
     RecyclerView.LayoutManager layoutManager;
+    Button updateOrderButton;
+    Button cancelOrderButton;
+
+
+    Calendar timeNow;
+    double currentHour;
+    double currentMinute;
 
     FirebaseDatabase database;
     DatabaseReference orders;
-    DatabaseReference ratings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +62,8 @@ public class OrderDetail extends AppCompatActivity{
 
         database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app");
         orders = database.getReference("Order");
-        ratings = database.getReference("Rating");
+
+
 
         orderId = findViewById(R.id.order_id);
         orderPhone = findViewById(R.id.order_phone);
@@ -64,6 +74,8 @@ public class OrderDetail extends AppCompatActivity{
         orderStatus = findViewById(R.id.order_status);
         statusImage = findViewById(R.id.status_image);
         orderSchedule = findViewById(R.id.order_schedule);
+        updateOrderButton = findViewById(R.id.updateOrderButton);
+        cancelOrderButton = findViewById(R.id.cancelOrderButton);
         foodList = findViewById(R.id.foodList);
         foodList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -115,7 +127,114 @@ public class OrderDetail extends AppCompatActivity{
             statusImage.setImageResource(R.drawable.cancelledimage_trans);
         }
 
-        orderedFoods = TextUtils.join(", ", adapter.getFoodsName());
+
+        updateOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                timeNow = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
+                currentHour = timeNow.get(Calendar.HOUR_OF_DAY);
+                currentMinute = timeNow.get(Calendar.MINUTE);
+
+                if(Common.currentOrder.getStatus().equals("-1") || Common.currentOrder.getStatus().equals("-2") ) {
+                    Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
+                }else if(Common.currentOrder.getStatus().equals("4")) {
+                    Toast.makeText(OrderDetail.this, "Order is already completed", Toast.LENGTH_SHORT).show();
+                }else{
+                    String currentOrderType = Common.currentOrder.getOrderType();
+                    String currentStatus = convertCodeToStatus(Common.currentOrder.getStatus());
+                    if(currentStatus.equals("Placed"))
+                        nextStatusCode = "1";
+                    else if (currentStatus.equals("Preparing") && currentOrderType.equals("Delivery"))
+                        nextStatusCode = "2";
+                    else if (currentStatus.equals("Preparing") && currentOrderType.equals("Self-Collect"))
+                        nextStatusCode = "3";
+                    else if (currentStatus.equals("Delivering") || currentStatus.equals("Ready to Pickup"))
+                        nextStatusCode = "4";
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetail.this);
+                    alertDialog.setTitle("Update Confirmation!");
+                    alertDialog.setMessage("Are you sure to update this order from:\n\n" + currentStatus + " -> " +
+                                            convertCodeToStatus(nextStatusCode) + " ?");
+                    alertDialog.setIcon(R.drawable.ic_baseline_warning_24);
+
+                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            orders.child(orderIdValue).child("status").setValue(nextStatusCode);
+                            if(nextStatusCode.equals("4"))
+                                orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentOrder.getCustID() + "4");
+                                orders.child(orderIdValue).child("adminFilter").setValue("4");
+                            Common.currentOrder.setStatus(nextStatusCode);
+                            Toast.makeText(OrderDetail.this,"Order updated!", Toast.LENGTH_SHORT).show();
+
+                            //refresh activity
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition(0, 0);
+                        }
+                    });
+                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+            }
+        });
+
+        cancelOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Display Toast message if order status is not "Placed"
+                if(Common.currentOrder.getStatus().equals("-1") || Common.currentOrder.getStatus().equals("-2") ) {
+                    Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
+                }
+                else if(Common.currentOrder.getStatus().equals("1")) {
+                    Toast.makeText(OrderDetail.this, "Unable to cancel preparing orders", Toast.LENGTH_SHORT).show();
+                }
+                else if((Common.currentOrder.getStatus().equals("2")) || (Common.currentOrder.getStatus().equals("3"))){
+                    Toast.makeText(OrderDetail.this, "Unable to cancel prepared orders", Toast.LENGTH_SHORT).show();
+                }
+                else if(Common.currentOrder.getStatus().equals("4")) {
+                    Toast.makeText(OrderDetail.this, "Unable to cancel completed orders", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetail.this);
+                    alertDialog.setTitle("Cancel Confirmation!");
+                    alertDialog.setMessage("Are you sure to cancel this order?\nThis action cannot be undone");
+                    alertDialog.setIcon(R.drawable.ic_baseline_warning_24);
+
+                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            orders.child(orderIdValue).child("status").setValue("-2");
+                            orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentOrder.getCustID() + "-1");
+                            orders.child(orderIdValue).child("adminFilter").setValue("-1");
+                            Common.currentOrder.setStatus("-2");
+                            Toast.makeText(OrderDetail.this,"Order cancelled", Toast.LENGTH_SHORT).show();
+
+                            //refresh activity
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition(0, 0);
+                        }
+                    });
+                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+            }
+        });
     }
 
     private String convertCodeToStatus(String status) {

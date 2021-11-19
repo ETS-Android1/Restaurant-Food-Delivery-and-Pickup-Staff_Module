@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.example.capstoneprojectadmin.Common.Common;
 import Interface.ItemClickListener;
@@ -41,7 +42,7 @@ public class OrderStatus extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference orders;
 
-    MaterialSpinner spinner;
+    Spinner spinner;
 
     String selectedFilter = "Order";
 
@@ -235,39 +236,42 @@ public class OrderStatus extends AppCompatActivity {
     }
 
     private void showUpdateDialog(String key, Order item) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderStatus.this);
-        alertDialog.setTitle("Update Order");
-        alertDialog.setMessage("Please choose status");
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View view = inflater.inflate(R.layout.update_order_layout,null);
-
-        spinner = (MaterialSpinner) view.findViewById(R.id.statusSpinner);
-        spinner.setItems("Preparing", "Delivering", "Ready to Pickup", "Completed");
-
-        alertDialog.setView(view);
-
-        final String localKey = key;
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
-
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.dismiss();
-                item.setStatus(String.valueOf(spinner.getSelectedIndex()+1));
-
-                orders.child(localKey).setValue(item);
-            }
-        });
-
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alertDialog.show();
+//        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderStatus.this);
+//        alertDialog.setTitle("Update Order");
+//        alertDialog.setMessage("Please choose status");
+//
+//        LayoutInflater inflater = this.getLayoutInflater();
+//        final View view = inflater.inflate(R.layout.update_order_layout,null);
+//
+//        spinner = view.findViewById(R.id.statusSpinner);
+//        spinner.setItems("Preparing", "Delivering", "Ready to Pickup", "Completed");
+//
+//        alertDialog.setView(view);
+//
+//        final String localKey = key;
+//        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int i) {
+//                dialog.dismiss();
+//                int selectedIndex = spinner.getSelectedIndex()+1;
+//
+//                item.setStatus(String.valueOf(spinner.getSelectedIndex()+1));
+//                item.setAdminFilter(String.valu);
+//
+//                orders.child(localKey).setValue(item);
+//            }
+//        });
+//
+//        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        alertDialog.show();
     }
 
     private void cancelOrder(String key) {
