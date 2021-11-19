@@ -237,6 +237,11 @@ public class FoodList extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Picture"), Common.PICK_IMAGE_REQUEST);
+
+        String imageName = UUID.randomUUID().toString();
+        StorageReference imageFolder = storageReference.child("images/"+imageName);
+
+
     }
 
     private void uploadImage() {

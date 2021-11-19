@@ -13,6 +13,9 @@
             android:name=".OrderStatus"
             android:exported="true" />
         <activity
+            android:name=".OrderDetail"
+            android:exported="true" />
+        <activity
             android:name=".FoodList"
             android:exported="true" />
         <activity

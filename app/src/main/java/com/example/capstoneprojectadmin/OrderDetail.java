@@ -28,9 +28,6 @@ import java.util.Arrays;
 
 public class OrderDetail extends AppCompatActivity{
 
-    Button cancelOrderButton;
-    Button rateOrderButton;
-
     TextView orderId;
     TextView orderPhone;
     TextView orderAddress;
@@ -65,8 +62,6 @@ public class OrderDetail extends AppCompatActivity{
         orderTotal = findViewById(R.id.order_price);
         orderRequest = findViewById(R.id.order_request);
         orderStatus = findViewById(R.id.order_status);
-        cancelOrderButton = findViewById(R.id.cancelOrderButton);
-        rateOrderButton = findViewById(R.id.rateButton);
         statusImage = findViewById(R.id.status_image);
         orderSchedule = findViewById(R.id.order_schedule);
         foodList = findViewById(R.id.foodList);
@@ -78,19 +73,6 @@ public class OrderDetail extends AppCompatActivity{
             orderIdValue = getIntent().getStringExtra("OrderId");
         }
 
-        ratings.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(orderIdValue).exists()) {
-                    rateOrderButton.setText("Order Rated");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         OrderDetailAdapter adapter = new OrderDetailAdapter(Common.currentOrder.getFoods());
         adapter.notifyDataSetChanged();
@@ -148,7 +130,7 @@ public class OrderDetail extends AppCompatActivity{
         else if(status.equals("4"))
             return "Completed";
         else if(status.equals("-1"))
-            return "Cancelled by You";
+            return "Cancelled by Customer";
         else
             return "Cancelled by Restaurant";
     }
