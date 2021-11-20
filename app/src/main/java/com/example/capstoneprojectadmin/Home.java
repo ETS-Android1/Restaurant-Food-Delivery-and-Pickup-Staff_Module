@@ -172,8 +172,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-
-
         alertDialog.setView(add_menu_layout);
         alertDialog.setIcon(R.drawable.ic_baseline_restaurant_24);
 
@@ -382,11 +380,6 @@ public class Home extends AppCompatActivity {
                                         imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                             @Override
                                             public void onSuccess(Uri uri) {
-                                                 //set value for newCategory if image upload and we can get download link
-//                                                 newCategory = new FoodCategory(edtName.getText().toString(),uri.toString());
-//                                                 foodCategory.push().setValue(newCategory);
-//                                                 Snackbar.make(drawer, "New category " + newCategory.getFoodCatName() + " was added", Snackbar.LENGTH_SHORT).show();
-//                                                 saveUri = null;
                                                  item.setFoodCatName(edtName.getText().toString());
                                                  item.setFoodImageURL(uri.toString());
                                                  foodCategory.child(key).setValue(item);
@@ -419,6 +412,7 @@ public class Home extends AppCompatActivity {
                     } else {
                         item.setFoodCatName(edtName.getText().toString());
                         foodCategory.child(key).setValue(item);
+                        Snackbar.make(drawer, "Category updated successfully!", Snackbar.LENGTH_SHORT).show();
                     }
                 }
 

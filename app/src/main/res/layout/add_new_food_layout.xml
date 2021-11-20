@@ -5,17 +5,11 @@
     android:layout_height="wrap_content"
     app:cardElevation="4dp"
     >
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:scrollbars="vertical"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
-
         <LinearLayout
+
+            android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:orientation="vertical">
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -28,7 +22,7 @@
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 app:met_baseColor="@color/black"
                 app:met_floatingLabel="highlight"
                 app:met_primaryColor="@color/black"
@@ -38,13 +32,14 @@
                 android:id="@+id/edtDesc"
                 android:layout_width="371dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp"
                 android:layout_marginLeft="1dp"
                 android:hint="Description"
                 android:inputType="textMultiLine"
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 app:met_baseColor="@color/black"
                 app:met_floatingLabel="highlight"
                 app:met_primaryColor="@color/black"
@@ -54,19 +49,21 @@
                 android:id="@+id/edtPrice"
                 android:layout_width="371dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp"
                 android:layout_marginLeft="1dp"
                 android:hint="Price"
                 android:inputType="number"
                 android:text=""
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 app:met_baseColor="@color/black"
                 app:met_floatingLabel="highlight"
                 app:met_primaryColor="@color/black"
                 app:met_singleLineEllipsis="true" />
 
             <TextView
+                android:layout_marginTop="-10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Image chosen: "
@@ -76,7 +73,7 @@
             <ImageView
                 android:id="@+id/image_preview"
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="200dp"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/border"
@@ -84,32 +81,21 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/noimageselected"></ImageView>
 
-            <LinearLayout
+            <info.hoang8f.widget.FButton
+                android:id="@+id/selectButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/selectButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:text="UPLOAD"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    app:cornerRadius="0dp"
-                    app:shadowColor="@color/black"
-                    app:shadowEnabled="true"
-                    app:shadowHeight="0dp" />
-
-            </LinearLayout>
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="UPLOAD"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                app:cornerRadius="0dp"
+                app:shadowColor="@color/black"
+                app:shadowEnabled="true"
+                app:shadowHeight="0dp" />
 
         </LinearLayout>
-
-    </ScrollView>
 
 </androidx.cardview.widget.CardView>

@@ -54,8 +54,11 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginAdmin(usernameText.getText().toString(), passwordText.getText().toString());
-
+                if(usernameText.getText().toString().isEmpty() || passwordText.getText().toString().isEmpty()) {
+                    Toast.makeText(Login.this, "Both fields must not be empty!", Toast.LENGTH_SHORT).show();
+                } else {
+                    loginAdmin(usernameText.getText().toString(), passwordText.getText().toString());
+                }
             }
         });
     }
