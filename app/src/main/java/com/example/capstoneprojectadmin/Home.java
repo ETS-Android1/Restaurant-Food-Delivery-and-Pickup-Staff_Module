@@ -1,10 +1,12 @@
 package com.example.capstoneprojectadmin;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,6 +98,11 @@ public class Home extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference("images/");
 
+//        Menu nav_Menu = findViewById(R.id.nav_main);
+//
+//        if (Common.currentAdmin.getSuperAdmin().toString().equals("true"))
+//            nav_Menu.findItem(R.id.admin_mng).setVisible(true);
+
         setSupportActionBar(binding.appBarHome.toolbar);
         binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,15 +132,19 @@ public class Home extends AppCompatActivity {
                     Intent orderIntent = new Intent(Home.this,OrderStatus.class);
                     startActivity(orderIntent);
                 }
+                else if(id == R.id.admin_mng){
+                    Intent adminManagement = new Intent(Home.this,AdminManagement.class);
+                    startActivity(adminManagement);
+                }
+                else if(id == R.id.nav_profile){
+                    Intent profile = new Intent(Home.this, Profile.class);
+                    startActivity(profile);
+                }
                 else if(id == R.id.nav_log_out){
                     //Logout
                     Intent logIn = new Intent(Home.this,Login.class);
                     logIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(logIn);
-                }
-                else if(id == R.id.admin_mng){
-                    Intent adminManagement = new Intent(Home.this,AdminManagement.class);
-                    startActivity(adminManagement);
                 }
                 return false;
             }
