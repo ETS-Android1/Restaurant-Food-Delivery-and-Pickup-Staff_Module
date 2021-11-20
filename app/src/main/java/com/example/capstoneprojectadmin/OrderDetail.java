@@ -46,7 +46,7 @@ public class OrderDetail extends AppCompatActivity{
     RecyclerView.LayoutManager layoutManager;
     Button updateOrderButton;
     Button cancelOrderButton;
-
+    boolean scheduledOrderIsActive = true;
 
     Calendar timeNow;
     double currentHour;
@@ -136,53 +136,68 @@ public class OrderDetail extends AppCompatActivity{
                 currentHour = timeNow.get(Calendar.HOUR_OF_DAY);
                 currentMinute = timeNow.get(Calendar.MINUTE);
 
-                if(Common.currentOrder.getStatus().equals("-1") || Common.currentOrder.getStatus().equals("-2") ) {
-                    Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
-                }else if(Common.currentOrder.getStatus().equals("4")) {
-                    Toast.makeText(OrderDetail.this, "Order is already completed", Toast.LENGTH_SHORT).show();
-                }else{
-                    String currentOrderType = Common.currentOrder.getOrderType();
-                    String currentStatus = convertCodeToStatus(Common.currentOrder.getStatus());
-                    if(currentStatus.equals("Placed"))
-                        nextStatusCode = "1";
-                    else if (currentStatus.equals("Preparing") && currentOrderType.equals("Delivery"))
-                        nextStatusCode = "2";
-                    else if (currentStatus.equals("Preparing") && currentOrderType.equals("Self-Collect"))
-                        nextStatusCode = "3";
-                    else if (currentStatus.equals("Delivering") || currentStatus.equals("Ready to Pickup"))
-                        nextStatusCode = "4";
+                if(!Common.currentOrder.getScheduledTime().isEmpty()) {
+                    String scheduledTime = Common.currentOrder.getScheduledTime().substring(0, Common.currentOrder.getScheduledTime().length() - 3);
+                    String[] scheduledHourMinute = scheduledTime.split(":");
+                    int scheduledHour = Integer.parseInt(scheduledHourMinute[0]);
+                    int scheduledMinute = Integer.parseInt(scheduledHourMinute[1]);
 
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetail.this);
-                    alertDialog.setTitle("Update Confirmation!");
-                    alertDialog.setMessage("Are you sure to update this order from:\n\n" + currentStatus + " -> " +
-                                            convertCodeToStatus(nextStatusCode) + " ?");
-                    alertDialog.setIcon(R.drawable.ic_baseline_warning_24);
+                    if(currentHour < scheduledHour || ((currentHour == scheduledHour) && (currentMinute < scheduledMinute))){
+                        Toast.makeText(OrderDetail.this, "Order has not reached scheduled time", Toast.LENGTH_SHORT).show();
+                        scheduledOrderIsActive = false;
+                    } else {
+                        scheduledOrderIsActive = true;
+                    }
+                }
+                if (scheduledOrderIsActive == true) {
+                    if(Common.currentOrder.getStatus().equals("-1") || Common.currentOrder.getStatus().equals("-2") ) {
+                        Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
+                    }else if(Common.currentOrder.getStatus().equals("4")) {
+                        Toast.makeText(OrderDetail.this, "Order is already completed", Toast.LENGTH_SHORT).show();
+                    }else{
+                        String currentOrderType = Common.currentOrder.getOrderType();
+                        String currentStatus = convertCodeToStatus(Common.currentOrder.getStatus());
+                        if(currentStatus.equals("Placed"))
+                            nextStatusCode = "1";
+                        else if (currentStatus.equals("Preparing") && currentOrderType.equals("Delivery"))
+                            nextStatusCode = "2";
+                        else if (currentStatus.equals("Preparing") && currentOrderType.equals("Self-Collect"))
+                            nextStatusCode = "3";
+                        else if (currentStatus.equals("Delivering") || currentStatus.equals("Ready to Pickup"))
+                            nextStatusCode = "4";
 
-                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetail.this);
+                        alertDialog.setTitle("Update Confirmation!");
+                        alertDialog.setMessage("Are you sure to update this order from:\n\n" + currentStatus + " -> " +
+                                convertCodeToStatus(nextStatusCode) + " ?");
+                        alertDialog.setIcon(R.drawable.ic_baseline_warning_24);
 
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            orders.child(orderIdValue).child("status").setValue(nextStatusCode);
-                            if(nextStatusCode.equals("4"))
-                                orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentOrder.getCustID() + "4");
+                        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                orders.child(orderIdValue).child("status").setValue(nextStatusCode);
+                                if(nextStatusCode.equals("4"))
+                                    orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentOrder.getCustID() + "4");
                                 orders.child(orderIdValue).child("adminFilter").setValue("4");
-                            Common.currentOrder.setStatus(nextStatusCode);
-                            Toast.makeText(OrderDetail.this,"Order updated!", Toast.LENGTH_SHORT).show();
+                                Common.currentOrder.setStatus(nextStatusCode);
+                                Toast.makeText(OrderDetail.this,"Order updated!", Toast.LENGTH_SHORT).show();
 
-                            //refresh activity
-                            finish();
-                            overridePendingTransition(0, 0);
-                            startActivity(getIntent());
-                            overridePendingTransition(0, 0);
-                        }
-                    });
-                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    alertDialog.show();
+                                //refresh activity
+                                finish();
+                                overridePendingTransition(0, 0);
+                                startActivity(getIntent());
+                                overridePendingTransition(0, 0);
+                            }
+                        });
+                        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    }
                 }
             }
         });

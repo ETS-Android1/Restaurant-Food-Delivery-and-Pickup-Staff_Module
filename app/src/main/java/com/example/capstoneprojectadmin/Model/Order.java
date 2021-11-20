@@ -112,7 +112,7 @@ public class Order {
         this.custIDStatusFilter = custIDStatusFilter;
     }
 
-    public String isScheduled() {
+    public String getIsScheduled() {
         return isScheduled;
     }
 
