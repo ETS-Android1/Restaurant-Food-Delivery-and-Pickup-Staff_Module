@@ -98,10 +98,14 @@ public class Home extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference("images/");
 
-//        Menu nav_Menu = findViewById(R.id.nav_main);
-//
-//        if (Common.currentAdmin.getSuperAdmin().toString().equals("true"))
-//            nav_Menu.findItem(R.id.admin_mng).setVisible(true);
+        //Set the visibility of Admin Management Menu
+        NavigationView nv = (NavigationView) findViewById(R.id.nav_view);
+        Menu menu = nv.getMenu();
+        MenuItem adminMng = menu.findItem(R.id.admin_mng);
+
+        if (Common.currentAdmin.getSuperAdmin().toString().equals("true"))
+            adminMng.setVisible(true);
+
 
         setSupportActionBar(binding.appBarHome.toolbar);
         binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
