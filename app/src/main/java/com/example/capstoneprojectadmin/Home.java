@@ -144,6 +144,10 @@ public class Home extends AppCompatActivity {
                     Intent profile = new Intent(Home.this, Profile.class);
                     startActivity(profile);
                 }
+                else if(id == R.id.nav_ratings) {
+                    Intent ratingList = new Intent(Home.this, RatingList.class);
+                    startActivity(ratingList);
+                }
                 else if(id == R.id.nav_log_out){
                     //Logout
                     Intent logIn = new Intent(Home.this,Login.class);

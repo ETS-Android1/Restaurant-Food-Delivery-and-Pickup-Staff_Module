@@ -13,6 +13,9 @@
             android:name=".AdminManagement"
             android:exported="true" />
         <activity
+            android:name=".RatingList"
+            android:exported="true" />
+        <activity
             android:name=".Profile"
             android:exported="true" />
         <activity

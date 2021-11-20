@@ -26,6 +26,11 @@
             android:iconTint="@color/white"
             android:title="Profile" />
         <item
+            android:id="@+id/nav_ratings"
+            android:icon="@drawable/ic_baseline_star_24"
+            android:iconTint="@color/white"
+            android:title="Ratings &amp; Reviews"/>
+        <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_baseline_exit_to_app_24"
             android:iconTint="@color/white"
