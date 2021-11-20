@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="4dp"
+    >
+    <LinearLayout
+
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/restaurantNameTxt"
+            android:layout_width="371dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:hint="Name"
+            android:inputType="text"
+            android:text=""
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="20sp"
+            app:met_baseColor="@color/black"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/black"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/restaurantSloganTxt"
+            android:layout_width="371dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            android:layout_marginLeft="1dp"
+            android:hint="Slogan"
+            android:inputType="textMultiLine"
+            android:text=""
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="20sp"
+            app:met_baseColor="@color/black"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/black"
+            app:met_singleLineEllipsis="true" />
+
+        <TextView
+            android:layout_marginTop="-10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opening Hour: "
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <Spinner
+                android:id="@+id/openingHourSpinner"
+                android:layout_width="150dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            </Spinner>
+            <Spinner
+                android:id="@+id/openingMinuteSpinner"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content">
+            </Spinner>
+            <TextView
+                android:id="@+id/openingAmPmLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="80dp"
+                android:text="AM"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Closing Hour: "
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <Spinner
+                android:id="@+id/closingHourSpinner"
+                android:layout_width="150dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            </Spinner>
+            <Spinner
+                android:id="@+id/closingMinuteSpinner"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content">
+            </Spinner>
+            <TextView
+                android:id="@+id/closingAmPmLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="80dp"
+                android:text="AM"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last Order Hour: "
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:weightSum="3">
+
+            <Spinner
+                android:id="@+id/lastOrderHourSpinner"
+                android:layout_width="150dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+            </Spinner>
+            <Spinner
+                android:id="@+id/lastOrderMinuteSpinner"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content">
+            </Spinner>
+            <TextView
+                android:id="@+id/lastOrderAmPmLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="80dp"
+                android:text="AM"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

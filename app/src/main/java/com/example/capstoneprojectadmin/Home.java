@@ -132,7 +132,8 @@ public class Home extends AppCompatActivity {
                     startActivity(logIn);
                 }
                 else if(id == R.id.admin_mng){
-
+                    Intent adminManagement = new Intent(Home.this,AdminManagement.class);
+                    startActivity(adminManagement);
                 }
                 return false;
             }

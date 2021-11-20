@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminManagement">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/top_background" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="191dp"
+        android:layout_height="151dp"
+        android:layout_marginTop="19dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/ic_baseline_circle_24" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="157dp"
+        android:layout_height="207dp"
+        android:layout_marginBottom="312dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/profilepic" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="96dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"> <!-- To make the layout to render correctly -->
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/updateRestaurantButton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_house_24"
+            android:drawablePadding="-25dp"
+            android:gravity="center"
+            android:paddingLeft="18dp"
+            android:text="Update Restaurant Info"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:cornerRadius="15dp"
+            app:shadowColor="@color/black"
+            app:shadowEnabled="true"
+            app:shadowHeight="0.5dp" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/addNewStaffButton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_person_add_alt_1_24"
+            android:drawablePadding="-45dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:text="Add New Staff"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:cornerRadius="15dp"
+            app:shadowColor="@color/black"
+            app:shadowEnabled="true"
+            app:shadowHeight="0.5dp" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/resetStaffPasswordButton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_lock_open_24"
+            android:drawablePadding="-30dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:text="Reset Staff Password"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:cornerRadius="15dp"
+            app:shadowColor="@color/black"
+            app:shadowEnabled="true"
+            app:shadowHeight="0.5dp" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/deleteStaffButton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_person_add_alt_1_24"
+            android:drawablePadding="-30dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:text="Delete Staff"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:cornerRadius="15dp"
+            app:shadowColor="@color/black"
+            app:shadowEnabled="true"
+            app:shadowHeight="0.5dp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="163dp"
+        android:text="Admin Management"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.347" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
