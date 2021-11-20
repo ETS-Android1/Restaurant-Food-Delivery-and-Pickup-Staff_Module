@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.capstoneprojectadmin.Common.Common;
+import com.example.capstoneprojectadmin.Model.Admin;
 import com.example.capstoneprojectadmin.Model.Restaurant;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,25 +33,25 @@ import java.util.List;
 
 public class AdminManagement extends AppCompatActivity {
 
-    Button updateRestaurantButton;
-    Button addNewStaffButton;
-    Button resetStaffPasswordButton;
-    Button deleteStaffButton;
-    MaterialEditText restaurantNameTxt;
-    MaterialEditText restaurantSloganTxt;
-    Spinner openingHourSpinner;
-    Spinner openingMinuteSpinner;
-    Spinner closingHourSpinner;
-    Spinner closingMinuteSpinner;
-    Spinner lastOrderHourSpinner;
-    Spinner lastOrderMinuteSpinner;
-    TextView openingAmPmLabel;
-    TextView closingAmPmLabel;
-    TextView lastOrderAmPmLabel;
-
-
     FirebaseDatabase database;
+    Button updateRestaurantButton, addNewStaffButton, resetStaffPasswordButton, deleteStaffButton;
+
+    //Update Restaurant Components
+    MaterialEditText restaurantNameTxt, restaurantSloganTxt;
+    Spinner openingHourSpinner, openingMinuteSpinner, closingHourSpinner, closingMinuteSpinner, lastOrderHourSpinner, lastOrderMinuteSpinner;
+    TextView openingAmPmLabel, closingAmPmLabel, lastOrderAmPmLabel;
     DatabaseReference restaurantTable;
+
+    //Add New Staff Components
+    MaterialEditText newUsernameTxt, newPasswordTxt, newRetypePasswordTxt, newTelNoTxt, newFullNameTxt;
+    DatabaseReference adminTable;
+
+    //Reset Staff Password Components
+    Spinner staffSpinner;
+    MaterialEditText resetPasswordTxt, resetRetypePasswordTxt;
+
+    //Delete Staff Components
+    Spinner deleteStaffSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class AdminManagement extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app");
         restaurantTable = database.getReference("Restaurant");
+        adminTable = database.getReference("Admin");
 
         updateRestaurantButton = findViewById(R.id.updateRestaurantButton);
         addNewStaffButton = findViewById(R.id.addNewStaffButton);
@@ -72,7 +75,7 @@ public class AdminManagement extends AppCompatActivity {
                 alertDialog.setMessage("Edit your restaurant information");
 
                 LayoutInflater inflater = getLayoutInflater();
-                View updateRestaurantLayout = inflater.inflate(R.layout.update_restaurant_alert_dialog,null);
+                View updateRestaurantLayout = inflater.inflate(R.layout.update_restaurant_alert_dialog, null);
                 alertDialog.setIcon(R.drawable.ic_baseline_restaurant_24);
                 alertDialog.setView(updateRestaurantLayout);
 
@@ -92,11 +95,11 @@ public class AdminManagement extends AppCompatActivity {
                 lastOrderAmPmLabel = updateRestaurantLayout.findViewById(R.id.lastOrderAmPmLabel);
 
                 String restOpening = Common.currentRestaurant.getRestOpening().
-                                     substring(0, Common.currentRestaurant.getRestOpening().length() - 3);
+                        substring(0, Common.currentRestaurant.getRestOpening().length() - 3);
                 String restClosing = Common.currentRestaurant.getRestClosing().
-                                     substring(0, Common.currentRestaurant.getRestClosing().length() - 3);
+                        substring(0, Common.currentRestaurant.getRestClosing().length() - 3);
                 String restLastOrder = Common.currentRestaurant.getRestLastOrderTime().
-                                       substring(0, Common.currentRestaurant.getRestLastOrderTime().length() - 3);
+                        substring(0, Common.currentRestaurant.getRestLastOrderTime().length() - 3);
 
                 String[] openingHourMinute = restOpening.split(":");
                 String openingHour = openingHourMinute[0];
@@ -113,9 +116,9 @@ public class AdminManagement extends AppCompatActivity {
 
                 //Opening hour spinner
                 List<String> hours = new ArrayList<>();
-                for(int i = 0; i < 24; i++){
+                for (int i = 0; i < 24; i++) {
                     String hourString = String.valueOf(i);
-                    if(hourString.length() == 1)
+                    if (hourString.length() == 1)
                         hourString = 0 + hourString;
                     hours.add(hourString);
                 }
@@ -205,11 +208,11 @@ public class AdminManagement extends AppCompatActivity {
                         int selectedLastOrderHour = Integer.parseInt(lastOrderHourSpinner.getSelectedItem().toString());
                         int selectedLastOrderMinute = Integer.parseInt(lastOrderMinuteSpinner.getSelectedItem().toString());
 
-                        if(restaurantNameTxt.getText().toString().isEmpty() || restaurantSloganTxt.getText().toString().isEmpty()){
+                        if (restaurantNameTxt.getText().toString().isEmpty() || restaurantSloganTxt.getText().toString().isEmpty()) {
                             Toast.makeText(AdminManagement.this, "All fields must not be empty!", Toast.LENGTH_SHORT).show();
-                        } else if ((selectedOpeningHour > selectedClosingHour) || ((selectedOpeningHour >= selectedClosingHour) && (selectedOpeningMinute >= selectedClosingMinute))){
+                        } else if ((selectedOpeningHour > selectedClosingHour) || ((selectedOpeningHour >= selectedClosingHour) && (selectedOpeningMinute >= selectedClosingMinute))) {
                             Toast.makeText(AdminManagement.this, "Opening Time must be earlier than Closing Time", Toast.LENGTH_SHORT).show();
-                        } else if ((selectedOpeningHour > selectedLastOrderHour) || ((selectedOpeningHour >= selectedLastOrderHour) && (selectedOpeningMinute >= selectedLastOrderMinute))){
+                        } else if ((selectedOpeningHour > selectedLastOrderHour) || ((selectedOpeningHour >= selectedLastOrderHour) && (selectedOpeningMinute >= selectedLastOrderMinute))) {
                             Toast.makeText(AdminManagement.this, "Opening Time must be earlier than Last Order Time", Toast.LENGTH_SHORT).show();
                         } else if ((selectedLastOrderHour > selectedClosingHour) || ((selectedLastOrderHour >= selectedClosingHour) && (selectedLastOrderMinute >= selectedClosingMinute))) {
                             Toast.makeText(AdminManagement.this, "Last Order Time must be earlier than Closing Time", Toast.LENGTH_SHORT).show();
@@ -220,26 +223,26 @@ public class AdminManagement extends AppCompatActivity {
                                     restaurantTable.child("restName").setValue(restaurantNameTxt.getText().toString());
                                     restaurantTable.child("restSlogan").setValue(restaurantSloganTxt.getText().toString());
                                     restaurantTable.child("restOpening").setValue(openingHourSpinner.getSelectedItem().toString() + ":" +
-                                                                                  openingMinuteSpinner.getSelectedItem().toString() + " " +
-                                                                                  openingAmPmLabel.getText().toString());
+                                            openingMinuteSpinner.getSelectedItem().toString() + " " +
+                                            openingAmPmLabel.getText().toString());
                                     restaurantTable.child("restClosing").setValue(closingHourSpinner.getSelectedItem().toString() + ":" +
-                                                                                  closingMinuteSpinner.getSelectedItem().toString() + " " +
-                                                                                  closingAmPmLabel.getText().toString());
+                                            closingMinuteSpinner.getSelectedItem().toString() + " " +
+                                            closingAmPmLabel.getText().toString());
                                     restaurantTable.child("restLastOrderTime").setValue(lastOrderHourSpinner.getSelectedItem().toString() + ":" +
-                                                                                  lastOrderMinuteSpinner.getSelectedItem().toString() + " " +
-                                                                                  lastOrderAmPmLabel.getText().toString());
+                                            lastOrderMinuteSpinner.getSelectedItem().toString() + " " +
+                                            lastOrderAmPmLabel.getText().toString());
 
                                     Common.currentRestaurant.setRestName(restaurantNameTxt.getText().toString());
                                     Common.currentRestaurant.setRestSlogan(restaurantSloganTxt.getText().toString());
                                     Common.currentRestaurant.setRestOpening(openingHourSpinner.getSelectedItem().toString() + ":" +
-                                                                            openingMinuteSpinner.getSelectedItem().toString() + " " +
-                                                                            openingAmPmLabel.getText().toString());
+                                            openingMinuteSpinner.getSelectedItem().toString() + " " +
+                                            openingAmPmLabel.getText().toString());
                                     Common.currentRestaurant.setRestClosing(closingHourSpinner.getSelectedItem().toString() + ":" +
-                                                                            closingMinuteSpinner.getSelectedItem().toString() + " " +
-                                                                            closingAmPmLabel.getText().toString());
+                                            closingMinuteSpinner.getSelectedItem().toString() + " " +
+                                            closingAmPmLabel.getText().toString());
                                     Common.currentRestaurant.setRestLastOrderTime(lastOrderHourSpinner.getSelectedItem().toString() + ":" +
-                                                                                  lastOrderMinuteSpinner.getSelectedItem().toString() + " " +
-                                                                                  lastOrderAmPmLabel.getText().toString());
+                                            lastOrderMinuteSpinner.getSelectedItem().toString() + " " +
+                                            lastOrderAmPmLabel.getText().toString());
                                 }
 
                                 @Override
@@ -264,22 +267,190 @@ public class AdminManagement extends AppCompatActivity {
         addNewStaffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdminManagement.this);
+                alertDialog.setTitle("Add New Staff");
+                alertDialog.setMessage("Enter new staff information");
 
+                LayoutInflater inflater = getLayoutInflater();
+                View addNewStaffLayout = inflater.inflate(R.layout.add_new_staff_alert_dialog, null);
+                alertDialog.setIcon(R.drawable.ic_baseline_person_add_alt_1_24);
+                alertDialog.setView(addNewStaffLayout);
+
+                newUsernameTxt = addNewStaffLayout.findViewById(R.id.newUsernameText);
+                newFullNameTxt = addNewStaffLayout.findViewById(R.id.newFullNameText);
+                newPasswordTxt = addNewStaffLayout.findViewById(R.id.newPasswordText);
+                newRetypePasswordTxt = addNewStaffLayout.findViewById(R.id.newRetypePasswordText);
+                newTelNoTxt = addNewStaffLayout.findViewById(R.id.newTelNoText);
+
+                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        adminTable.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (newUsernameTxt.getText().toString().isEmpty() || newPasswordTxt.getText().toString().isEmpty() ||
+                                        newRetypePasswordTxt.getText().toString().isEmpty() || newTelNoTxt.getText().toString().isEmpty() ||
+                                        newFullNameTxt.getText().toString().isEmpty()) {
+                                    Toast.makeText(AdminManagement.this, "All fields must not be empty", Toast.LENGTH_SHORT).show();
+                                } else if (!newPasswordTxt.getText().toString().equals(newRetypePasswordTxt.getText().toString())) {
+                                    Toast.makeText(AdminManagement.this, "Both passwords must be the same", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (snapshot.child(newUsernameTxt.getText().toString()).exists()) {
+                                        Toast.makeText(AdminManagement.this, "Username already exist!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Admin admin = new Admin(newFullNameTxt.getText().toString(), newPasswordTxt.getText().toString(),
+                                                newTelNoTxt.getText().toString(), "false");
+                                        adminTable.child(newUsernameTxt.getText().toString()).setValue(admin);
+                                        Toast.makeText(AdminManagement.this, "Staff registered successfully!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                });
+                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog.show();
             }
         });
 
         resetStaffPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdminManagement.this);
+                alertDialog.setTitle("Reset Staff Password");
+                alertDialog.setMessage("Select staff and enter new password");
 
+                LayoutInflater inflater = getLayoutInflater();
+                View resetStaffPasswordLayout = inflater.inflate(R.layout.reset_staff_password_alert_dialog, null);
+                alertDialog.setIcon(R.drawable.ic_baseline_lock_open_24_black);
+                alertDialog.setView(resetStaffPasswordLayout);
+
+                staffSpinner = resetStaffPasswordLayout.findViewById(R.id.staffSpinner);
+                resetPasswordTxt = resetStaffPasswordLayout.findViewById(R.id.resetPasswordText);
+                resetRetypePasswordTxt = resetStaffPasswordLayout.findViewById(R.id.resetRetypePasswordText);
+
+                List<String> staffUsernames = new ArrayList<>();
+                adminTable.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot d : snapshot.getChildren()) {
+                                staffUsernames.add(d.getKey());
+                            }
+                        }
+                        ArrayAdapter<String> staffSpinnerAdapter = new ArrayAdapter<>(getApplicationContext(),
+                                android.R.layout.simple_list_item_1, staffUsernames);
+                        staffSpinner.setAdapter(staffSpinnerAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (resetPasswordTxt.getText().toString().isEmpty() || resetRetypePasswordTxt.getText().toString().isEmpty()) {
+                            Toast.makeText(AdminManagement.this, "All fields must not be empty!", Toast.LENGTH_SHORT).show();
+                        } else if (!resetPasswordTxt.getText().toString().equals(resetRetypePasswordTxt.getText().toString())) {
+                            Toast.makeText(AdminManagement.this, "Both passwords must be the same!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            adminTable.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    adminTable.child(staffSpinner.getSelectedItem().toString()).child("adminPassword").setValue(
+                                            resetPasswordTxt.getText().toString()
+                                    );
+                                    Toast.makeText(AdminManagement.this, "Password reset successfully!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
+                });
+                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog.show();
             }
         });
 
         deleteStaffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdminManagement.this);
+                alertDialog.setTitle("Delete Staff");
+                alertDialog.setMessage("Select staff to delete from the system");
 
+                LayoutInflater inflater = getLayoutInflater();
+                View deleteStaffLayout = inflater.inflate(R.layout.delete_staff_alert_dialog, null);
+                alertDialog.setIcon(R.drawable.ic_baseline_person_remove_alt_1_black);
+                alertDialog.setView(deleteStaffLayout);
+
+                deleteStaffSpinner = deleteStaffLayout.findViewById(R.id.deleteStaffSpinner);
+
+                List<String> staffUsernames = new ArrayList<>();
+                adminTable.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot d : snapshot.getChildren()) {
+                                staffUsernames.add(d.getKey());
+                            }
+                        }
+                        int currentUserPos = staffUsernames.indexOf(Common.currentAdmin.getAdminUsername());
+                        staffUsernames.remove(currentUserPos);
+                        ArrayAdapter<String> deleteStaffSpinnerAdapter = new ArrayAdapter<>(getApplicationContext(),
+                                android.R.layout.simple_list_item_1, staffUsernames);
+                        deleteStaffSpinner.setAdapter(deleteStaffSpinnerAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        adminTable.child(deleteStaffSpinner.getSelectedItem().toString()).removeValue();
+                        Toast.makeText(AdminManagement.this,
+                                "User " + deleteStaffSpinner.getSelectedItem().toString() + " deleted successfully!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                alertDialog.show();
             }
         });
+
     }
 }

@@ -80,6 +80,8 @@ public class Login extends AppCompatActivity {
                     admin.setUsername(localUsername);
                     admin.setAdminPassword(dataSnapshot.child(username).child("adminPassword").getValue().toString());
                     admin.setName(dataSnapshot.child(username).child("adminName").getValue().toString());
+                    admin.setAdminTelNo(dataSnapshot.child(username).child("adminTelNo").getValue().toString());
+                    admin.setSuperAdmin(dataSnapshot.child(username).child("superAdmin").getValue().toString());
 
                     if(admin.getAdminPassword().equals(password)){
                         Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
