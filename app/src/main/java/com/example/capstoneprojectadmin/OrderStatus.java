@@ -222,18 +222,18 @@ public class OrderStatus extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-
-        if (selectedFilter != "4" || selectedFilter != "5") {
-            if (item.getTitle().equals(Common.UPDATE))
-                showUpdateDialog(adapter.getRef(item.getOrder()).getKey(), adapter.getItem(item.getOrder()));
-            else if (item.getTitle().equals(Common.DELETE))
-                cancelOrder(adapter.getRef(item.getOrder()).getKey());
-        }
-
-        return super.onContextItemSelected(item);
-    }
+//    @Override
+//    public boolean onContextItemSelected(@NonNull MenuItem item) {
+//
+//        if (selectedFilter != "4" || selectedFilter != "5") {
+//            if (item.getTitle().equals(Common.UPDATE))
+//                showUpdateDialog(adapter.getRef(item.getOrder()).getKey(), adapter.getItem(item.getOrder()));
+//            else if (item.getTitle().equals(Common.DELETE))
+//                cancelOrder(adapter.getRef(item.getOrder()).getKey());
+//        }
+//
+//        return super.onContextItemSelected(item);
+//    }
 
     private void showUpdateDialog(String key, Order item) {
 //        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderStatus.this);
