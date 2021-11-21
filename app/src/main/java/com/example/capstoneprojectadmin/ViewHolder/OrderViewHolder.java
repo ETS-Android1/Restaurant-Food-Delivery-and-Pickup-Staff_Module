@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import Interface.ItemClickListener;
 import com.example.capstoneprojectadmin.R;
 
-public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
+public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId,txtOrderStatus,txtOrderDate,txtOrderPrice,txtOrderType;
+    public TextView txtOrderId,txtOrderStatus,txtOrderDate,txtOrderPrice,txtOrderType,txtScheduledTime;
 
     private ItemClickListener itemClickListener;
 
@@ -24,9 +24,9 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderStatus = itemView.findViewById(R.id.order_status);
         txtOrderType = itemView.findViewById(R.id.order_type);
         txtOrderPrice = itemView.findViewById(R.id.order_price);
+        txtScheduledTime = itemView.findViewById(R.id.scheduled_time);
 
         itemView.setOnClickListener(this);
-        itemView.setOnCreateContextMenuListener(this);
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -38,11 +38,5 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
             itemClickListener.onClick(view,getAdapterPosition(),false);
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.setHeaderTitle("Select The Action");
 
-            menu.add(0,0,getAdapterPosition(),"Update");
-            menu.add(0,1,getAdapterPosition(),"Cancel");
-    }
 }

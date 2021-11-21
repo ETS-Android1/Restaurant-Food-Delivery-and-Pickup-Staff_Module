@@ -20,6 +20,7 @@ import android.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.capstoneprojectadmin.Common.Common;
 import com.example.capstoneprojectadmin.Model.FoodCategory;
+import com.example.capstoneprojectadmin.Service.ListenOrder;
 import com.example.capstoneprojectadmin.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -171,6 +172,10 @@ public class Home extends AppCompatActivity {
         recyclerMenu.setLayoutManager(layoutManager);
 
         loadMenu();
+
+        //Register Service
+        Intent service = new Intent(Home.this, ListenOrder.class);
+        startService(service);
     }
 
     private void showDialog() {
@@ -490,6 +495,16 @@ public class Home extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    //Refresh customer name after applying changes in Profile page
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 }
 

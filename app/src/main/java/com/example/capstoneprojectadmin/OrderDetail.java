@@ -177,10 +177,13 @@ public class OrderDetail extends AppCompatActivity{
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 orders.child(orderIdValue).child("status").setValue(nextStatusCode);
-                                if(nextStatusCode.equals("4"))
+                                if (nextStatusCode.equals("4")) {
                                     orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentOrder.getCustID() + "4");
-                                orders.child(orderIdValue).child("adminFilter").setValue("4");
+                                    orders.child(orderIdValue).child("adminFilter").setValue("4");
+                                }
+
                                 Common.currentOrder.setStatus(nextStatusCode);
+
                                 Toast.makeText(OrderDetail.this,"Order updated!", Toast.LENGTH_SHORT).show();
 
                                 //refresh activity

@@ -17,11 +17,12 @@ public class Order {
     private String custIDStatusFilter;
     private String isScheduled;
     private String scheduledTime;
+    private String notification;
 
     public Order() {
     }
 
-    public Order(String custID, String orderTelNo, String orderAddress, String orderType, String orderPrice, String orderRequest, List<CartDetail> foods, String isScheduled, String scheduledTime) {
+    public Order(String custID, String orderTelNo, String orderAddress, String orderType, String orderPrice, String orderRequest, List<CartDetail> foods, String isScheduled, String scheduledTime, String notification) {
         this.adminFilter = "0";
         this.custID = custID;
         this.orderTelNo = orderTelNo;
@@ -34,6 +35,8 @@ public class Order {
         this.custIDStatusFilter = custID + this.status;
         this.isScheduled = isScheduled;
         this.scheduledTime = scheduledTime;
+        this.notification = notification;
+
     }
 
     public String getAdminFilter() {return adminFilter;}
@@ -127,4 +130,8 @@ public class Order {
     public void setScheduledTime(String scheduledTime) {
         this.scheduledTime = scheduledTime;
     }
+
+    public String getNotification(){return this.notification;}
+
+    public void setNotification(String notification){this.notification=notification;}
 }

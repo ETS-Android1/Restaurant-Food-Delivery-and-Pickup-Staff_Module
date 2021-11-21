@@ -9,6 +9,21 @@
     app:cardCornerRadius="20dp"
     >
 
+    <TextView
+        android:id="@+id/scheduled_time"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical|start"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:text="Scheduled for 8:00 PM"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="60dp"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        android:background="#FF0000"/>
+
     <LinearLayout
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
@@ -23,6 +38,7 @@
             android:layout_weight="9"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
             >
 
             <LinearLayout

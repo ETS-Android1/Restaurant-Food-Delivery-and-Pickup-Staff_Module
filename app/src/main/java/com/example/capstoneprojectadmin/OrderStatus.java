@@ -65,6 +65,7 @@ public class OrderStatus extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         loadOrders("Order");
+
         adapter.notifyDataSetChanged();
 
         allFilterButton = findViewById(R.id.allFilterButton);
@@ -88,6 +89,18 @@ public class OrderStatus extends AppCompatActivity {
                     orderViewHolder.txtOrderPrice.setText(order.getOrderPrice());
                     orderViewHolder.txtOrderType.setText(String.format("Order Type: ") + order.getOrderType());
                     orderViewHolder.txtOrderDate.setText(Common.getDate(Long.parseLong(adapter.getRef(i).getKey())));
+
+                    if(!order.getScheduledTime().isEmpty()){
+                        if (order.getStatus().equals("0")){
+                            orderViewHolder.txtScheduledTime.setText("Scheduled for " + order.getScheduledTime());
+                            orderViewHolder.txtScheduledTime.setVisibility(View.VISIBLE);
+                        }
+                        else
+                            orderViewHolder.txtScheduledTime.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                        orderViewHolder.txtScheduledTime.setVisibility(View.INVISIBLE);
+
 
                     //Set text color of order status
                     if(convertCodeToStatus(order.getStatus()).equals("Placed")) {
@@ -132,6 +145,17 @@ public class OrderStatus extends AppCompatActivity {
                     orderViewHolder.txtOrderPrice.setText(order.getOrderPrice());
                     orderViewHolder.txtOrderType.setText(String.format("Order Type: ") + order.getOrderType());
                     orderViewHolder.txtOrderDate.setText(Common.getDate(Long.parseLong(adapter.getRef(i).getKey())));
+
+                    if(!order.getScheduledTime().isEmpty()){
+                        if (order.getStatus().equals("0")){
+                            orderViewHolder.txtScheduledTime.setText("Scheduled for " + order.getScheduledTime());
+                            orderViewHolder.txtScheduledTime.setVisibility(View.VISIBLE);
+                        }
+                        else
+                            orderViewHolder.txtScheduledTime.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                        orderViewHolder.txtScheduledTime.setVisibility(View.INVISIBLE);
 
                     //Set text color of order status
                     if(convertCodeToStatus(order.getStatus()).equals("Placed")) {
@@ -221,60 +245,4 @@ public class OrderStatus extends AppCompatActivity {
         loadOrders(selectedFilter);
     }
 
-
-//    @Override
-//    public boolean onContextItemSelected(@NonNull MenuItem item) {
-//
-//        if (selectedFilter != "4" || selectedFilter != "5") {
-//            if (item.getTitle().equals(Common.UPDATE))
-//                showUpdateDialog(adapter.getRef(item.getOrder()).getKey(), adapter.getItem(item.getOrder()));
-//            else if (item.getTitle().equals(Common.DELETE))
-//                cancelOrder(adapter.getRef(item.getOrder()).getKey());
-//        }
-//
-//        return super.onContextItemSelected(item);
-//    }
-
-    private void showUpdateDialog(String key, Order item) {
-//        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderStatus.this);
-//        alertDialog.setTitle("Update Order");
-//        alertDialog.setMessage("Please choose status");
-//
-//        LayoutInflater inflater = this.getLayoutInflater();
-//        final View view = inflater.inflate(R.layout.update_order_layout,null);
-//
-//        spinner = view.findViewById(R.id.statusSpinner);
-//        spinner.setItems("Preparing", "Delivering", "Ready to Pickup", "Completed");
-//
-//        alertDialog.setView(view);
-//
-//        final String localKey = key;
-//        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener(){
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int i) {
-//                dialog.dismiss();
-//                int selectedIndex = spinner.getSelectedIndex()+1;
-//
-//                item.setStatus(String.valueOf(spinner.getSelectedIndex()+1));
-//                item.setAdminFilter(String.valu);
-//
-//                orders.child(localKey).setValue(item);
-//            }
-//        });
-//
-//        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener(){
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        alertDialog.show();
-    }
-
-    private void cancelOrder(String key) {
-        orders.child(key).removeValue();
-    }
 }
