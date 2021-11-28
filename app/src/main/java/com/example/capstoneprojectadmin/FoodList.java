@@ -210,6 +210,7 @@ public class FoodList extends AppCompatActivity {
                     if (edtName.getText().toString().isEmpty() || edtDesc.getText().toString().isEmpty() ||
                         edtPrice.getText().toString().isEmpty()) {
                         Toast.makeText(FoodList.this, "All fields must not be empty!", Toast.LENGTH_SHORT).show();
+                        saveUri = null;
                     } else {
                         ProgressDialog mDialog = new ProgressDialog(FoodList.this);
                         mDialog.setMessage("Uploading...");
@@ -424,6 +425,7 @@ public class FoodList extends AppCompatActivity {
                     if (edtName.getText().toString().isEmpty() || edtDesc.getText().toString().isEmpty() ||
                             edtPrice.getText().toString().isEmpty()) {
                         Toast.makeText(FoodList.this, "All fields must not be empty!", Toast.LENGTH_SHORT).show();
+                        saveUri = null;
                     } else {
                         ProgressDialog mDialog = new ProgressDialog(FoodList.this);
                         mDialog.setMessage("Uploading...");

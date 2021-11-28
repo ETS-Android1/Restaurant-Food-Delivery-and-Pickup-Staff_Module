@@ -112,7 +112,7 @@ public class Home extends AppCompatActivity {
         binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              showDialog();
+                showDialog();
             }
         });
         drawer = binding.drawerLayout;
@@ -209,6 +209,7 @@ public class Home extends AppCompatActivity {
                 if(saveUri!=null){
                     if (edtName.getText().toString().isEmpty()) {
                         Toast.makeText(Home.this, "Category name must not be empty!", Toast.LENGTH_SHORT).show();
+                        saveUri = null;
                     } else {
                         ProgressDialog mDialog = new ProgressDialog(Home.this);
                         mDialog.setMessage("Uploading...");
@@ -226,6 +227,7 @@ public class Home extends AppCompatActivity {
                                             public void onSuccess(Uri uri) {
                                                 if (edtName.getText().toString().isEmpty()){
                                                     Toast.makeText(Home.this, "Category name must not be empty!", Toast.LENGTH_SHORT).show();
+                                                    saveUri = null;
                                                 } else {
                                                     //set value for newCategory if image upload and we can get download link
                                                     newCategory = new FoodCategory(edtName.getText().toString(),uri.toString());
@@ -405,11 +407,11 @@ public class Home extends AppCompatActivity {
                                         imageFolder.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                             @Override
                                             public void onSuccess(Uri uri) {
-                                                 item.setFoodCatName(edtName.getText().toString());
-                                                 item.setFoodImageURL(uri.toString());
-                                                 foodCategory.child(key).setValue(item);
-                                                 Snackbar.make(drawer, "Category updated successfully!", Snackbar.LENGTH_SHORT).show();
-                                                 saveUri = null;
+                                                item.setFoodCatName(edtName.getText().toString());
+                                                item.setFoodImageURL(uri.toString());
+                                                foodCategory.child(key).setValue(item);
+                                                Snackbar.make(drawer, "Category updated successfully!", Snackbar.LENGTH_SHORT).show();
+                                                saveUri = null;
                                             }
                                         });
                                     }
@@ -434,6 +436,8 @@ public class Home extends AppCompatActivity {
                 } else {
                     if(edtName.getText().toString().trim().equals(item.getFoodCatName())){
                         Toast.makeText(Home.this,"No changes were made", Toast.LENGTH_SHORT).show();
+                    } else if (edtName.getText().toString().isEmpty()){
+                        Toast.makeText(Home.this,"Category name must not be empty!", Toast.LENGTH_SHORT).show();
                     } else {
                         item.setFoodCatName(edtName.getText().toString());
                         foodCategory.child(key).setValue(item);
@@ -501,10 +505,7 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        txtFullName.setText(Common.currentAdmin.getName());
     }
 }
 

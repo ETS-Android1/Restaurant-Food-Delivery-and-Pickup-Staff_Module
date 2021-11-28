@@ -243,6 +243,8 @@ public class AdminManagement extends AppCompatActivity {
                                     Common.currentRestaurant.setRestLastOrderTime(lastOrderHourSpinner.getSelectedItem().toString() + ":" +
                                             lastOrderMinuteSpinner.getSelectedItem().toString() + " " +
                                             lastOrderAmPmLabel.getText().toString());
+
+                                    Toast.makeText(AdminManagement.this, "Restaurant info updated successfully!", Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override

@@ -63,9 +63,6 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginAdmin(String username, String password) {
-        ProgressDialog mDialog = new ProgressDialog(Login.this);
-        mDialog.setMessage ("Please waiting...");
-        mDialog.show();
 
         final String localUsername = username;
         final String localPassword = password;
@@ -74,7 +71,6 @@ public class Login extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.child(username).exists()){
-                    mDialog.dismiss();
 
                     Admin admin = dataSnapshot.child(username).getValue(Admin.class);
                     admin.setUsername(localUsername);
@@ -94,7 +90,6 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Wrong password !", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    mDialog.dismiss();
                     Toast.makeText(Login.this, "Please login with Staff account!", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -6,40 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".AdminManagement">
 
+
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="104dp"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/top_background" />
 
-
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="140dp"
-        android:layout_height="220dp"
-        android:layout_marginBottom="300dp"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        android:layout_width="149dp"
+        android:layout_height="209dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_circle_24" />
 
-
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="116dp"
-        android:layout_height="107dp"
-        android:layout_marginTop="42.5dp"
+        android:layout_width="111dp"
+        android:layout_height="109dp"
+        android:layout_marginBottom="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@drawable/ic_baseline_admin_panel_settings_24" />
 
     <LinearLayout
@@ -47,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="144dp"
         android:gravity="center"
         android:orientation="vertical"
         android:weightSum="3"
@@ -136,7 +133,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="163dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="163dp"
         android:text="Admin Management"
         android:textColor="@color/white"
@@ -144,9 +140,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.347" />
+        app:layout_constraintVertical_bias="0.21" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
